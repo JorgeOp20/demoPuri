@@ -1,8 +1,10 @@
 package com.Purixa.demoPuri.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -34,6 +36,12 @@ public class Tarea {
     private Integer orden;
 
     private boolean completada;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "proyecto_id")
+    @ToString.Exclude
+    @JsonIgnore
+    private Proyecto proyecto;
 
 
 }

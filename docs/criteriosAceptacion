@@ -1,0 +1,23 @@
+1. Crear proyecto
+Criterios de aceptación:
+  Escenario 1.1: alta proyecto con datos correctos (happy path)
+    - Dado un proyecto
+    - Cuando el usuario quiere dar de alta un proyecto con datos correctos
+    - Entonces se da de alta el proyecto en el repositorio
+  Escenario 1.2: alta proyecto con datos incorrectos (alternativo)
+    - Dado un usuario
+    - Cuando el usuario quiere dar de alta un proyecto con un nombre inferior a 2 letras
+    - Entonces salta una excepción ProyectoException
+  Escenario 1.3: alta proyecto con datos incorrectos (alternativo)
+    - Dado un usuario
+    - Cuando el usuario quiere dar de alta un proyecto con fecha de creacion incorrecta
+    - Entonces salta una excepción DateTimeException
+
+Casos de pruebas:
+RepositoryTest
+- save OK
+
+ProyectosControllerTest
+- Alta cliente OK
+- Alta con nombre inferior a 2 posiciones, error 412
+- Alta con fecha incorrecta , error 412

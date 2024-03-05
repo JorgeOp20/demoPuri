@@ -24,7 +24,7 @@ public class Proyecto {
     @Min(1)
     private Long id;
 
-    @Size(min = 3, max = 60)
+    @Size(min = 2, max = 60)
     private String nombre;
 
     @DateTimeFormat
@@ -34,9 +34,9 @@ public class Proyecto {
 
 
     //@ToString.Exclude
-    //@JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "proyecto_id")
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "proyecto")
+    //@JoinColumn(name = "proyecto_id")
     private List<Tarea> tareas;
 
 
