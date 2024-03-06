@@ -3,7 +3,7 @@ POST /proyectos
     -> JSON
     <- 201, 412, 500
 2. Crear y añadir tarea a proyecto
-POST /tareas/{pid}/
+POST /proyectos/anadirTarea/{pid}
     -> JSON
     <- 201, 404, 412, 500
 3. Listar proyectos
@@ -11,7 +11,7 @@ GET /proyectos
     ->
     <- 200, 404, 500
 4. Lista tareas de un proyecto
-GET /proyectos/{pid}
+GET /tareas/{pid}
     ->
     <- 200, 404, 500
 5. Marcar tarea completada

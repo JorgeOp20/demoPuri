@@ -28,7 +28,7 @@ public class Proyecto {
     private String nombre;
 
     @DateTimeFormat
-    @NotNull
+    //@NotNull
     @Column(name = "fechaDeCreacion")
     private LocalDate fechaCreacion;
 
@@ -38,6 +38,7 @@ public class Proyecto {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "proyecto")
     //@JoinColumn(name = "proyecto_id")
     private List<Tarea> tareas;
+
 
 
 }

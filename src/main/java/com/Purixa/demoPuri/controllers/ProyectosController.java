@@ -1,19 +1,18 @@
 package com.Purixa.demoPuri.controllers;
 
 import com.Purixa.demoPuri.model.Proyecto;
+import com.Purixa.demoPuri.model.Tarea;
 import com.Purixa.demoPuri.persistence.ProyectoJPARepository;
 import com.Purixa.demoPuri.service.ProyectoTareaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/proyectos")
@@ -25,5 +24,9 @@ public class ProyectosController {
     @PostMapping(value="")
     public ResponseEntity<Proyecto> save (@RequestBody @Valid Proyecto proyecto) {
         return new ResponseEntity<>(proyectoTareaService.crearProyecto(proyecto), HttpStatus.CREATED);
+    }
+    @PostMapping(value="/anadirTarea/{pid}")
+    public ResponseEntity<Proyecto> anadirTarea (@PathVariable @Min(1) Long pid, @RequestBody @Valid Tarea tarea) {
+        return new ResponseEntity<>(proyectoTareaService.anadeTareaAProyecto(pid, tarea), HttpStatus.CREATED);
     }
 }

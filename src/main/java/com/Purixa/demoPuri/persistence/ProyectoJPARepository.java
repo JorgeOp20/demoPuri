@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ProyectoJPARepository extends JpaRepository<Proyecto, Integer> {
+public interface ProyectoJPARepository extends JpaRepository<Proyecto, Long> {
 
     //public List<Proyecto> findAll() throws RuntimeException;
 
