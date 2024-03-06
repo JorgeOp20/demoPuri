@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TareaJPARepository extends JpaRepository<Tarea, Long> {
 
-    //public List<Tarea> findByProject(Long idProyecto) throws RuntimeException;
+    public List<Tarea> findByProyecto_idOrderByOrdenAsc(Long idProyecto) throws RuntimeException;
 
 
     //public Tarea update(Tarea tarea) throws RuntimeException;

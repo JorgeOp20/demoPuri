@@ -17,10 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -91,9 +94,9 @@ class ProyectosControllerTestWebMvc {
     @Test
     void givenIdProjectoAndTarea_whenValidIDProjectoAndValidTarea_thenResponseOK() throws Exception {
 
-        Tarea tarea = new Tarea(null, "Nueva tarea", LocalDate.now(), 6 , false, null);
+        Tarea tarea = new Tarea(null, "Nueva tarea", LocalDate.now(), 6, false, null);
         Proyecto salidaProyecto = new Proyecto(1L, "Nuevo proyecto", LocalDate.now(), null);
-        Mockito.when(proyectoTareaService.anadeTareaAProyecto(any() , any(Tarea.class))).thenReturn(salidaProyecto);
+        Mockito.when(proyectoTareaService.anadeTareaAProyecto(any(), any(Tarea.class))).thenReturn(salidaProyecto);
 
         mvc.perform(post("/proyectos/anadirTarea/1")
                         .content(JsonUtil.asJsonString(tarea))
@@ -107,7 +110,7 @@ class ProyectosControllerTestWebMvc {
     @Test
     void givenIdProjectoAndTarea_whenInvalidTarea_thenResponseKO() throws Exception {
         //Mockito.when(proyectoTareaService.crearProyecto(newProyecto)).thenThrow(ConstraintViolationException.class);
-        Tarea tarea = new Tarea(null, "N", LocalDate.now(), 6 , false, null);
+        Tarea tarea = new Tarea(null, "N", LocalDate.now(), 6, false, null);
 
         mvc.perform(post("/proyectos/anadirTarea/1")
                         .content(JsonUtil.asJsonString(tarea))
@@ -121,7 +124,7 @@ class ProyectosControllerTestWebMvc {
     @Test
     void givenIdProjectoAndTarea_whenInexistentIDProyect_thenResponseKO() throws Exception {
         //Mockito.when(proyectoTareaService.crearProyecto(newProyecto)).thenThrow(ConstraintViolationException.class);
-        Tarea tarea = new Tarea(null, "Nueva tarea", LocalDate.now(), 6 , false, null);
+        Tarea tarea = new Tarea(null, "Nueva tarea", LocalDate.now(), 6, false, null);
         Mockito.when(proyectoTareaService.anadeTareaAProyecto(any(), any())).thenThrow(ProyectoNotfoundException.class);
 
         mvc.perform(post("/proyectos/anadirTarea/1")
@@ -131,5 +134,33 @@ class ProyectosControllerTestWebMvc {
                 )
                 .andDo(print())
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void givenIdProjecto_whenListaTareas_thenResponseOK() throws Exception {
+        //Mockito.when(proyectoTareaService.crearProyecto(newProyecto)).thenThrow(ConstraintViolationException.class);
+        List<Tarea> tareaList = new ArrayList<>();
+        tareaList.add(new Tarea(1L, "tarea1", LocalDate.now(), 1, false, null));
+        tareaList.add(new Tarea(2L, "tarea2", LocalDate.now(), 1, false, null));
+        Mockito.when(proyectoTareaService.obtenerTareasDelProyecto(1L)).thenReturn(tareaList);
+
+        mvc.perform(get("/proyectos/1/tareas")
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void givenIdProjecto_whenListaTareasVacia_thenResponseOK() throws Exception {
+        //Mockito.when(proyectoTareaService.crearProyecto(newProyecto)).thenThrow(ConstraintViolationException.class);
+        List<Tarea> tareaList = new ArrayList<>();
+        Mockito.when(proyectoTareaService.obtenerTareasDelProyecto(1L)).thenReturn(tareaList);
+
+        mvc.perform(get("/proyectos/1/tareas")
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }

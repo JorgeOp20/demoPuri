@@ -13,7 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
@@ -55,6 +58,23 @@ class ProyectoTareaServiceCTest {
          assertThrows(Exception.class, () -> {
             Tarea tarea = new Tarea(null, "n", LocalDate.now(), 4, false, null);
             proyectoTareaService.anadeTareaAProyecto(5L, tarea);
+        });
+    }
+    @Test
+    void listaTareasProyecto () {
+
+        Proyecto aProyecto =  entityManager.find(Proyecto.class, 2L);
+
+        List<Tarea> lista =  proyectoTareaService.obtenerTareasDelProyecto(2L);
+        assertThat(lista.size()>0);
+        assertThat(lista.contains(aProyecto));
+    }
+    @Test
+    void listaTareas_cuandoInexistenteProyecto_KO () {
+
+
+         assertThrows(ProyectoNotfoundException.class, () -> {
+            proyectoTareaService.obtenerTareasDelProyecto(5L);
         });
     }
 }

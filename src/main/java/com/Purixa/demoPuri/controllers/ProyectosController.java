@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @RestController
 @RequestMapping("/proyectos")
@@ -28,5 +29,12 @@ public class ProyectosController {
     @PostMapping(value="/anadirTarea/{pid}")
     public ResponseEntity<Proyecto> anadirTarea (@PathVariable @Min(1) Long pid, @RequestBody @Valid Tarea tarea) {
         return new ResponseEntity<>(proyectoTareaService.anadeTareaAProyecto(pid, tarea), HttpStatus.CREATED);
+    }
+    @GetMapping(value="/{pid}/tareas")
+    public ResponseEntity listarTareas (@PathVariable @Min(1) Long pid) {
+
+        List<Tarea> accs = proyectoTareaService.obtenerTareasDelProyecto(pid);
+        if (accs != null && accs.size() > 0) return ResponseEntity.status(HttpStatus.OK).body(accs);
+        else return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

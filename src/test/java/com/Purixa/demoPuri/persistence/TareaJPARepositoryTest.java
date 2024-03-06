@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -50,5 +51,13 @@ private static final Logger logger = LoggerFactory.getLogger(TareaJPARepositoryT
         // then
         assertThat(nTarea.getId()).isGreaterThan(0);
     }
+    @Test
+    void findByProyecto_id() {
+        Proyecto proyecto = entityManager.find(Proyecto.class, 2L);
+        List<Tarea> lista =  jpaRepo.findByProyecto_idOrderByOrdenAsc(2L);
 
+        assertThat(lista.size()>0);
+        assertThat(lista.contains(proyecto));
+        System.out.println("lista :" + lista);
+    }
 }

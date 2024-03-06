@@ -11,7 +11,7 @@ GET /proyectos
     ->
     <- 200, 404, 500
 4. Lista tareas de un proyecto
-GET /tareas/{pid}
+GET /proyectos/{pid}/tareas
     ->
     <- 200, 404, 500
 5. Marcar tarea completada
